@@ -62,6 +62,11 @@ function mainProcess(event, context, callback) {
     config.AUTH_REQUEST.redirect_uri = event.Records[0].cf.config.test + config.CALLBACK_PATH;
     config.TOKEN_REQUEST.redirect_uri = event.Records[0].cf.config.test + config.CALLBACK_PATH;
   }
+
+  if (process.env.CLIENT_SECRET) {
+    config.TOKEN_REQUEST.client_secret = process.env.CLIENT_SECRET
+  }
+
   if (request.uri.startsWith(config.CALLBACK_PATH)) {
     console.log("Callback from OIDC provider received");
 
