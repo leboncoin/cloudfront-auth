@@ -5,24 +5,27 @@ const axios = require('axios');
 const colors = require('colors/safe');
 const url = require('url');
 const R = require('ramda');
+const argv = require('minimist')(process.argv.slice(2));
 
 var config = { AUTH_REQUEST: {}, TOKEN_REQUEST: {} };
 var oldConfig;
 
 prompt.message = colors.blue(">");
+prompt.override = argv;
+
 prompt.start();
 prompt.get({
   properties: {
-    distribution: {
+    CLOUDFRONT_DISTRIBUTION: {
       message: colors.red("Enter distribution name"),
       required: true
     },
-    method: {
+    AUTH_METHOD: {
       description: colors.red("Authentication methods:\n    (1) Google\n    (2) Microsoft\n    (3) GitHub\n    (4) OKTA\n    (5) Auth0\n    (6) Centrify\n    (7) OKTA Native\n\n    Select an authentication method")
     }
   }
 }, function (err, result) {
-  config.DISTRIBUTION = result.distribution;
+  config.DISTRIBUTION = result.CLOUDFRONT_DISTRIBUTION;
   shell.mkdir('-p', 'distributions/' + config.DISTRIBUTION);
   if (fs.existsSync('distributions/' + config.DISTRIBUTION + '/config.json')) {
     oldConfig = JSON.parse(fs.readFileSync('./distributions/' + config.DISTRIBUTION + '/config.json', 'utf8'));
@@ -31,7 +34,7 @@ prompt.get({
     shell.exec("ssh-keygen -t rsa -m PEM -b 4096 -f ./distributions/" + config.DISTRIBUTION + "/id_rsa -N ''");
     shell.exec("openssl rsa -in ./distributions/" + config.DISTRIBUTION + "/id_rsa -pubout -outform PEM -out ./distributions/" + config.DISTRIBUTION + "/id_rsa.pub");
   }
-  switch (result.method) {
+  switch (result.AUTH_VENDOR) {
     case '1':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "GOOGLE") {
         oldConfig = undefined;
