@@ -34,7 +34,7 @@ prompt.get({
     shell.exec("ssh-keygen -t rsa -m PEM -b 4096 -f ./distributions/" + config.DISTRIBUTION + "/id_rsa -N ''");
     shell.exec("openssl rsa -in ./distributions/" + config.DISTRIBUTION + "/id_rsa -pubout -outform PEM -out ./distributions/" + config.DISTRIBUTION + "/id_rsa.pub");
   }
-  switch (result.AUTH_VENDOR) {
+  switch (result.AUTH_METHOD) {
     case 'google':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "GOOGLE") {
         oldConfig = undefined;
