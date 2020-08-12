@@ -35,49 +35,49 @@ prompt.get({
     shell.exec("openssl rsa -in ./distributions/" + config.DISTRIBUTION + "/id_rsa -pubout -outform PEM -out ./distributions/" + config.DISTRIBUTION + "/id_rsa.pub");
   }
   switch (result.AUTH_VENDOR) {
-    case '1':
+    case 'google':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "GOOGLE") {
         oldConfig = undefined;
       }
       config.AUTHN = "GOOGLE";
       googleConfiguration();
       break;
-    case '2':
+    case 'microsoft':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "MICROSOFT") {
         oldConfig = undefined;
       }
       config.AUTHN = "MICROSOFT";
       microsoftConfiguration();
       break;
-    case '3':
+    case 'github':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "GITHUB") {
         oldConfig = undefined;
       }
       config.AUTHN = "GITHUB";
       githubConfiguration();
       break;
-    case '4':
+    case 'okta':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "OKTA") {
         oldConfig = undefined;
       }
       config.AUTHN = "OKTA";
       oktaConfiguration();
       break;
-    case '5':
+    case 'auth0':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "AUTH0") {
         oldConfig = undefined;
       }
       config.AUTHN = "AUTH0";
       auth0Configuration();
       break;
-    case '6':
+    case 'centrify':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "CENTRIFY") {
         oldConfig = undefined;
       }
       config.AUTHN = "CENTRIFY";
       centrifyConfiguration();
       break;
-    case '7':
+    case 'okta_native':
       if (R.pathOr('', ['AUTHN'], oldConfig) != "OKTA_NATIVE") {
         oldConfig = undefined;
       }
